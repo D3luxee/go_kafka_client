@@ -18,13 +18,14 @@ package go_kafka_client
 import (
 	"encoding/json"
 	"fmt"
+	"regexp"
+	"strings"
+
+	"github.com/d3luxee/siesta"
+	"github.com/d3luxee/siesta-producer"
 	"github.com/elodina/go-avro"
 	kafkaavro "github.com/elodina/go-kafka-avro"
 	avroline "github.com/elodina/go_kafka_client/avro"
-	"github.com/elodina/siesta"
-	"github.com/elodina/siesta-producer"
-	"regexp"
-	"strings"
 )
 
 type CodahaleKafkaReporter struct {

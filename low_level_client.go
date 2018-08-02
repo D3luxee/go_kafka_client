@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/elodina/siesta"
+	"github.com/d3luxee/siesta"
 )
 
 type ErrorType int

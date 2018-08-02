@@ -17,11 +17,12 @@ package go_kafka_client
 
 import (
 	"fmt"
-	kafkaavro "github.com/elodina/go-kafka-avro"
-	"github.com/elodina/go_kafka_client/avro"
-	"github.com/elodina/siesta"
-	"github.com/elodina/siesta-producer"
 	"time"
+
+	"github.com/d3luxee/go_kafka_client/avro"
+	"github.com/d3luxee/siesta"
+	"github.com/d3luxee/siesta-producer"
+	kafkaavro "github.com/elodina/go-kafka-avro"
 )
 
 const (

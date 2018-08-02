@@ -18,11 +18,13 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/elodina/go-kafka-avro"
-	kafka "github.com/elodina/go_kafka_client"
 	"os"
 	"os/signal"
 	"runtime"
+	"runtime/pprof"
+
+	kafka "github.com/d3luxee/go_kafka_client"
+	"github.com/elodina/go-kafka-avro"
 )
 
 type consumerConfigs []string
@@ -49,9 +51,19 @@ var queueSize = flag.Int("queue.size", 10000, "Number of messages that are buffe
 var maxProcs = flag.Int("max.procs", runtime.NumCPU(), "Maximum number of CPUs that can be executing simultaneously.")
 var schemaRegistryUrl = flag.String("schema.registry.url", "", "Avro schema registry URL for message encoding/decoding")
 
+var cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
+
 func parseAndValidateArgs() *kafka.MirrorMakerConfig {
 	flag.Var(&consumerConfig, "consumer.config", "Path to consumer configuration file.")
 	flag.Parse()
+	if *cpuprofile != "" {
+		f, err := os.Create(*cpuprofile)
+		if err != nil {
+			panic(err)
+		}
+		pprof.StartCPUProfile(f)
+		defer pprof.StopCPUProfile()
+	}
 	runtime.GOMAXPROCS(*maxProcs)
 
 	if (*whitelist != "" && *blacklist != "") || (*whitelist == "" && *blacklist == "") {

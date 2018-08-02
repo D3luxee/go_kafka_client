@@ -17,16 +17,17 @@ package go_kafka_client
 
 import (
 	"fmt"
-	"github.com/Shopify/sarama"
-	"github.com/elodina/siesta"
-	"github.com/elodina/siesta-producer"
-	"github.com/samuel/go-zookeeper/zk"
 	"os"
 	"os/exec"
 	"reflect"
 	"runtime"
 	"testing"
 	"time"
+
+	"github.com/Shopify/sarama"
+	"github.com/d3luxee/siesta"
+	"github.com/d3luxee/siesta-producer"
+	"github.com/samuel/go-zookeeper/zk"
 )
 
 type logWriter struct {

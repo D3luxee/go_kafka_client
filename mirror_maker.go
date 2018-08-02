@@ -17,9 +17,10 @@ package go_kafka_client
 
 import (
 	"fmt"
-	"github.com/elodina/siesta"
-	"github.com/elodina/siesta-producer"
 	"hash/fnv"
+
+	"github.com/d3luxee/siesta"
+	"github.com/d3luxee/siesta-producer"
 )
 
 // MirrorMakerConfig defines configuration options for MirrorMaker

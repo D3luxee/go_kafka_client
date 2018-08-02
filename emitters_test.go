@@ -17,10 +17,11 @@ package go_kafka_client
 
 import (
 	"fmt"
-	"github.com/elodina/siesta"
-	"github.com/elodina/siesta-producer"
 	"testing"
 	"time"
+
+	"github.com/d3luxee/siesta"
+	"github.com/d3luxee/siesta-producer"
 )
 
 var schemaRepositoryUrl = "http://localhost:8081"
