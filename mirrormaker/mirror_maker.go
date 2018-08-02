@@ -18,10 +18,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"net/http"
+	_ "net/http/pprof"
 	"os"
 	"os/signal"
 	"runtime"
-	"runtime/pprof"
 
 	kafka "github.com/d3luxee/go_kafka_client"
 	"github.com/elodina/go-kafka-avro"
@@ -51,19 +52,11 @@ var queueSize = flag.Int("queue.size", 10000, "Number of messages that are buffe
 var maxProcs = flag.Int("max.procs", runtime.NumCPU(), "Maximum number of CPUs that can be executing simultaneously.")
 var schemaRegistryUrl = flag.String("schema.registry.url", "", "Avro schema registry URL for message encoding/decoding")
 
-var cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
+var cpuprofile = flag.Bool("profile", false, "activate profile endpoint on port 8080 for pprof")
 
 func parseAndValidateArgs() *kafka.MirrorMakerConfig {
 	flag.Var(&consumerConfig, "consumer.config", "Path to consumer configuration file.")
 	flag.Parse()
-	if *cpuprofile != "" {
-		f, err := os.Create(*cpuprofile)
-		if err != nil {
-			panic(err)
-		}
-		pprof.StartCPUProfile(f)
-		defer pprof.StopCPUProfile()
-	}
 	runtime.GOMAXPROCS(*maxProcs)
 
 	if (*whitelist != "" && *blacklist != "") || (*whitelist == "" && *blacklist == "") {
@@ -106,6 +99,9 @@ func parseAndValidateArgs() *kafka.MirrorMakerConfig {
 
 func main() {
 	config := parseAndValidateArgs()
+	if *cpuprofile {
+		go http.ListenAndServe(":8080", http.DefaultServeMux)
+	}
 	mirrorMaker := kafka.NewMirrorMaker(config)
 	go mirrorMaker.Start()
 
